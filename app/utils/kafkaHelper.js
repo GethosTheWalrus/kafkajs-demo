@@ -15,7 +15,7 @@ async function createConsumer(groupId, topics, action) {
     await consumer.connect()
 
     // subscribe to topics
-    await consumer.subscribe({ topic: 'test', fromBeginning: true })
+    await consumer.subscribe({ topics: topics })
 
     // run the consumer and listen for messages
     await consumer.run({
