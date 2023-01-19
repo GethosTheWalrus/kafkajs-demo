@@ -1,7 +1,8 @@
 const amqp = require('amqplib/callback_api');
+const { Config } = require('./config.js');
 
 function sendMessage(queue, message) {
-    amqp.connect('amqp://localhost', function(error0, connection) {
+    amqp.connect('amqp://' + Config.RabbitMQAddress, function(error0, connection) {
         if (error0) {
             throw error0;
         }
@@ -26,7 +27,7 @@ function sendMessage(queue, message) {
 }
 
 function listenForMessages(queue) {
-    amqp.connect('amqp://localhost', function(error0, connection) {
+    amqp.connect('amqp://' + Config.RabbitMQAddress, function(error0, connection) {
         if (error0) {
             throw error0;
         }

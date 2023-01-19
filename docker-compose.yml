@@ -8,12 +8,12 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 2181:2181
+    networks:
+      - demoNetwork
   broker:
     image: confluentinc/cp-kafka:7.3.0
     container_name: broker
     ports:
-    # To learn about configuring Kafka for access across networks see
-    # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
       - "9092:9092"
     depends_on:
       - zookeeper
@@ -25,6 +25,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - demoNetwork
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
@@ -34,3 +36,22 @@ services:
     volumes:
         - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - demoNetwork
+  node:
+    build: ./app/
+    image: node-app
+    container_name: node_app
+    ports:
+      - 3000:3000
+    command: node index.js
+    volumes:
+      - ./app:/usr/app/
+      - ./app/node_modules:/usr/app/node_modules
+    networks:
+      - demoNetwork
+
+networks:
+  demoNetwork:
+    name: demoNetwork
+    driver: bridge

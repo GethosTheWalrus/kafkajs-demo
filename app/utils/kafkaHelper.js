@@ -1,8 +1,9 @@
 const { Kafka, Partitioners } = require('kafkajs');
+const { Config } = require('./config.js');
 
 var kafka = new Kafka({
     clientId: 'kafka-nodejs-starter',
-    brokers: ['localhost:9092'],
+    brokers: Config.KafkaBrokerAddresses, //['localhost:9092'],
 });
 
 var producer = kafka.producer({ createPartitioner: Partitioners.DefaultPartitioner, 'debug': 'all' });

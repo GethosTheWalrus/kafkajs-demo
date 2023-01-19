@@ -1,9 +1,8 @@
 To run:
-1) in the root folder, "docker-compose up -d" to start a kafka demo
-2) create a topic called "demoTopic" using the Kafka CLI
-3) in the app folder, "npm install"
-4) in the app folder, "node index.js"
+If you would like to run the demo application in your own CLI, modify /app/utils/config.js with appropriate values for the address of your Kafka and RabbitMQ instances
+
+If you prefer to run the stack as is, in the root directory, run "docker-compose up -d" to start Kafka, RabbitMQ, and the demo application
 
 To test:
-1) from a terminal with curl installed, "curl localhost:3000/produce"
-2) observe the console output of the running index.js
+1) from a terminal with curl installed, "curl localhost:3000/kafka/produce" or "curl localhost:3000/rabbitmq/produce"
+2) observe the console output of the running node container
