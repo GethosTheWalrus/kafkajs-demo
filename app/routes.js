@@ -1,4 +1,5 @@
 const { KafkaHelper } = require('./utils/kafkaHelper.js');
+const { RabbitMQHelper } = require('./utils/rabbitmqHelper.js');
 
 var express = require('express');
 var router = express.Router();
@@ -14,7 +15,7 @@ router.get('/', function(req, res){
     res.send("Hello world!");
 });
  
-router.get('/produce', async (req, res) => {
+router.get('/kafka/produce', async (req, res) => {
     // Connect to the producer
     await KafkaHelper.producer.connect()
 
@@ -30,7 +31,12 @@ router.get('/produce', async (req, res) => {
 
     // Disconnect the producer once we're done
     await KafkaHelper.producer.disconnect();
-    res.send('message sent')
-})
+    res.send('message sent to Kafka')
+});
+
+router.get('/rabbitmq/produce', (req, res) => {
+    RabbitMQHelper.sendMessage('hello', 'Hello RabbitMQ!');
+    res.send('message sent to RabbitMQ');
+});
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const { KafkaHelper } = require('./utils/kafkaHelper.js');
+const { RabbitMQHelper } = require('./utils/rabbitmqHelper.js');
 
 var express = require('express');
 var app = express();
@@ -6,16 +7,16 @@ var app = express();
 // Routes
 app.use(require('./routes'));
 
-// Invoke our helper module
+// Invoke our kafka helper module
 KafkaHelper.createConsumer(
     'test-group',
     ['test'],
-    consumerCallback
+    kafkaConsumerCallback
 );
 
-// this is what the consumer will do when a mesage is sent to
-// a topic that it is subscribed to
-function consumerCallback(message) {
+RabbitMQHelper.listenForMessages('hello');
+
+function kafkaConsumerCallback(message) {
     console.log({value: message.value.toString()});
 }
 

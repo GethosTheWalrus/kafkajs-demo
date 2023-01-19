@@ -30,6 +30,6 @@ async function createConsumer(groupId, topics, action) {
 var KafkaHelper = {
     producer: producer,
     createConsumer: createConsumer
-}
+};
 
-module.exports = { KafkaHelper }
+module.exports = { KafkaHelper };
