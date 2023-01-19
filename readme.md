@@ -1,4 +1,4 @@
-To run:
+To run:  
 If you would like to run the demo application in your own CLI, modify /app/utils/config.js with appropriate values for the address of your Kafka and RabbitMQ instances
 
 If you prefer to run the stack as is, in the root directory, run "docker-compose up -d" to start Kafka, RabbitMQ, and the demo application
