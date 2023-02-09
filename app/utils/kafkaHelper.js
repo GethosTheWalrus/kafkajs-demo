@@ -3,7 +3,7 @@ const { Config } = require('./config.js');
 
 var kafka = new Kafka({
     clientId: 'kafka-nodejs-starter',
-    brokers: Config.KafkaBrokerAddresses, //['localhost:9092'],
+    brokers: Config.KafkaBrokerAddresses,
 });
 
 var producer = kafka.producer({ createPartitioner: Partitioners.DefaultPartitioner, 'debug': 'all' });
@@ -28,9 +28,30 @@ async function createConsumer(groupId, topics, action) {
     consumers.push(consumer);
 }
 
+async function produceMessage(topic, messages) {
+    // Connect to the producer
+    await producer.connect()
+
+    // Send an event to the demoTopic topic
+    await producer.send({
+        // topic: 'test', 
+        topic: topic,
+        messages: messages,
+        // messages: [
+        //     { 
+        //         value: 'Hello micro-services world!' 
+        //     },
+        // ],
+    })
+
+    // Disconnect the producer once we're done
+    await producer.disconnect();
+}
+
 var KafkaHelper = {
     producer: producer,
-    createConsumer: createConsumer
+    createConsumer: createConsumer,
+    produceMessage: produceMessage
 };
 
 module.exports = { KafkaHelper };

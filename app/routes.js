@@ -16,22 +16,8 @@ router.get('/', function(req, res){
 });
  
 router.get('/kafka/produce', async (req, res) => {
-    // Connect to the producer
-    await KafkaHelper.producer.connect()
-
-    // Send an event to the demoTopic topic
-    await KafkaHelper.producer.send({
-        topic: 'test', 
-        messages: [
-            { 
-                value: 'Hello micro-services world!' 
-            },
-        ],
-    })
-
-    // Disconnect the producer once we're done
-    await KafkaHelper.producer.disconnect();
-    res.send('message sent to Kafka')
+    KafkaHelper.produceMessage('test', [{value: 'Hello Kafka!'}]);
+    res.send('message sent to Kafka');
 });
 
 router.get('/rabbitmq/produce', (req, res) => {
